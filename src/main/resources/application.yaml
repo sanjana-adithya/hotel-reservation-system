@@ -10,9 +10,8 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
-
-security:
-  oauth2:
-    resourceserver:
-      jwt:
-        issuer-uri: http://localhost:9001/realms/hotel-booking
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9001/realms/hotel-booking

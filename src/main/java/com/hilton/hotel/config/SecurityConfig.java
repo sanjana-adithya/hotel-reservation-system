@@ -24,6 +24,7 @@ public class SecurityConfig {
         this.oAuth2ResourceServerProperties = oAuth2ResourceServerProperties;
     }
 
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())

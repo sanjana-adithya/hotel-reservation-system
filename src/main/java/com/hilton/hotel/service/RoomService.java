@@ -1,6 +1,8 @@
 package com.hilton.hotel.service;
 
 import com.hilton.hotel.domain.Room;
+import com.hilton.hotel.dto.request.CreateRoomRequest;
+import com.hilton.hotel.exception.DuplicateResourceException;
 import com.hilton.hotel.exception.ResourceNotFoundException;
 import com.hilton.hotel.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +28,22 @@ public class RoomService {
     public Room getRoomById(Long id) {
         return roomRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + id));
+    }
+
+    @Transactional
+    public Room createRoom(CreateRoomRequest request) {
+        if (roomRepository.existsByRoomNumber(request.getRoomNumber())) {
+            throw new DuplicateResourceException("Room already exists with number: " + request.getRoomNumber());
+        }
+
+        Room room = Room.builder()
+                .roomNumber(request.getRoomNumber())
+                .type(request.getType())
+                .pricePerNight(request.getPricePerNight())
+                .capacity(request.getCapacity())
+                .description(request.getDescription())
+                .build();
+
+        return roomRepository.save(room);
     }
 }

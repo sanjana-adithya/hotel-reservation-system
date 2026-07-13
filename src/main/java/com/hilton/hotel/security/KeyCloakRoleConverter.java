@@ -16,7 +16,7 @@ public class KeyCloakRoleConverter implements Converter<Jwt, Collection<GrantedA
     @Override
     public Collection<GrantedAuthority> convert(Jwt jwt) {
         Map<String, Object> realmAccess =
-                (Map<String, Object>) jwt.getClaims().get("realm access");
+                (Map<String, Object>) jwt.getClaims().get("realm_access");
 
         if(realmAccess == null || !realmAccess.containsKey("roles")){
             return List.of();
@@ -25,7 +25,7 @@ public class KeyCloakRoleConverter implements Converter<Jwt, Collection<GrantedA
         List<String> roles = (List<String>) realmAccess.get("roles");
 
         return roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE "+ role))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toList());
     }
 
